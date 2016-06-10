@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="iot-room-thermometer:war exploded">
-    <output-path>$PROJECT_DIR$/target/room-thermometer</output-path>
+    <output-path>$PROJECT_DIR$/target/iot-room-thermometer</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -41,7 +41,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/room-thermometer/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/iot-room-thermometer/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="iot-room-thermometer/web/Web" />
     </root>
