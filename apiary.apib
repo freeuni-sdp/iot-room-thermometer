@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://iot-room-thermometer.herokuapp.com/webapi
+HOST: https://room-thermometer.herokuapp.com/webapi
 
 # iot-room-thermometer
 
@@ -24,11 +24,48 @@ Returns `200` if service is alive.
 Returns `200` status code in case of success and `404` otherwise.
 
 `house_id` is string indicating house.
+`floor` is string indicating floor.
 `temperature` is a floating point number indicating desired floor temperature.
 
 + Response 200 (application/json)
 
         {
-            "house_id": 13,
+            "house_id": "13",
+            "floor_id": "2",
             "temperature": 22.5
         }
+        
+## House Temperature [/houses/{house_id}/floors/]
+        
++ Parameters
+    + house_id (required, string, `12`) ... House identifier
+    
+### Get temperature of all the floors in the house [GET]
+
+Returns `200` status code in case of success and `404` otherwise.
+
+`house_id` is string indicating house.
+`floor` is string indicating floor.
+`temperature` is a floating point number indicating desired floor temperature.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "house_id": "13",
+                "floor_id": "1",
+                "temperature": 22.5
+            },
+            
+            {
+                "house_id": "13",
+                "floor_id": "2",
+                "temperature": 25
+            },
+            
+            {
+                "house_id": "13",
+                "floor_id": "3",
+                "temperature": 23
+            }
+        ]
