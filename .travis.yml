@@ -3,4 +3,4 @@ language: java
 deploy:
    provider: heroku
    api_key: $HEROKU_TOKEN
-   app: room-thermometer
+   app: iot-room-thermometer
