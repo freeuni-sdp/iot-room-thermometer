@@ -1,0 +1,29 @@
+FORMAT: 1A
+HOST: https://iot-room-thermometer.herokuapp.com/webapi
+
+# iot-room-thermometer
+
+IOT Room Thermometer API allows user to get tempreture on specific floor in the house.
+
+## Floor Temperature [/houses/{house_id}/floors/{floor_id}]
+
++ Parameters
+    + house_id (required, string, `12`) ... House identifier
+    + floor_id (required, string, `3`) ... Floor identifier
+
+### Get temperature on the floor [GET]
+
+Returns `200` status code if regulation task is accepted otherwise `404`
+
+`house_id` is a floating point number indicating house.
+`temperature` is a floating point number indicating desired floor temperature.
+
++ Request (application/json)
+
+        {
+            "house_id": 13,
+            "temperature": 22
+        }
+        
++ Response 200 (application/json)
++ Response 404 (application/json)
