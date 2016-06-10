@@ -24,8 +24,16 @@
         <processorPath useClasspath="true" />
         <module name="room-thermometer" />
       </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="iot-room-thermometer" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="iot-room-thermometer" target="1.7" />
       <module name="room-thermometer" target="1.7" />
     </bytecodeTargetLevel>
   </component>

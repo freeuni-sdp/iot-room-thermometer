@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/iot-room-thermometer.iml" filepath="$PROJECT_DIR$/.idea/iot-room-thermometer.iml" />
       <module fileurl="file://$PROJECT_DIR$/room-thermometer.iml" filepath="$PROJECT_DIR$/room-thermometer.iml" />
     </modules>
   </component>
