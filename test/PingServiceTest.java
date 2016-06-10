@@ -1,6 +1,7 @@
 /**
  * Created by Nika Doghonadze
  */
+
 import ge.edu.freeuni.sdp.room_thermometer.core.PingService;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -23,6 +24,7 @@ public class PingServiceTest extends JerseyTest {
 
     @Test
     public void testGetPing() {
-
+        Response basilResponse = target("ping").request().get();
+        assertEquals(basilResponse.getStatus(), Response.Status.OK.getStatusCode());
     }
 }
