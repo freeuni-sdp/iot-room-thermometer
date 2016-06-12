@@ -3,7 +3,7 @@ HOST: https://iot-room-thermometer.herokuapp.com/webapi
 
 # iot-room-thermometer
 
-IOT Room Thermometer API allows user to get temperature on specific floor in the house.
+IOT Room Thermometer API allows user to get temperature on different floors in the house.
 `Temperature` is measured in Celsius.
 
 ## Ping [/ping]
@@ -25,7 +25,7 @@ Returns `200` status code in case of success and `404` otherwise.
 
 `house_id` is string indicating house.
 `floor` is string indicating floor.
-`temperature` is a floating point number indicating desired floor temperature.
+`temperature` is a floating point number indicating floor temperature.
 
 + Response 200 (application/json)
 
@@ -46,7 +46,7 @@ Returns `200` status code in case of success and `404` otherwise.
 
 `house_id` is string indicating house.
 `floor` is string indicating floor.
-`temperature` is a floating point number indicating desired floor temperature.
+`temperature` is a floating point number indicating floor temperature.
 
 + Response 200 (application/json)
 
