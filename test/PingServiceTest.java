@@ -2,7 +2,7 @@
  * Created by Nika Doghonadze
  */
 
-import ge.edu.freeuni.sdp.iot.sensor.room_thermometer.core.PingService;
+import ge.edu.freeuni.sdp.iot.sensor.room_thermometer.services.PingService;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
