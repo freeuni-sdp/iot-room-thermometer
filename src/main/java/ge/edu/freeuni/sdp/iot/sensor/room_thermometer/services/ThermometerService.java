@@ -7,7 +7,6 @@ import ge.edu.freeuni.sdp.iot.sensor.room_thermometer.model.Temperature;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/houses")
@@ -41,6 +40,6 @@ public class ThermometerService {
     }
 
     public Repository getRepository() {
-        return RepositoryFactory.create();
+        return RepositoryFactory.instance();
     }
 }
