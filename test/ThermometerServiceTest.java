@@ -3,7 +3,11 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -67,14 +71,117 @@ public class ThermometerServiceTest  extends JerseyTest{
         assertTrue(temperature.equals(result));
     }
 
+
     @Test
-    public void get_house_temperature_empty_list_expect_null() {
-        FakeRepository.instance().clear();
-        List result= target("houses/1/floors")
+    public void post_temperature_single_house_expect_ok() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+        Temperature temperature = new Temperature(13.5, "1", "1");
+
+        Response response = target("houses/1/floors/1")
                 .request()
-                .get(List.class);
-        assertEquals(null, result);
+                .post(Entity.entity(temperature, MediaType.APPLICATION_JSON_TYPE));
+
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
+
+
+    @Test
+    public void post_temperature_single_house_one_floor_expect_repository_changed() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+
+        Temperature temperatureFloor1 = new Temperature(25.2, "1", "1");
+
+        Response response = target("houses/1/floors/1")
+                .request()
+                .post(Entity.entity(temperatureFloor1, MediaType.APPLICATION_JSON_TYPE));
+
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        assertTrue(temperatureFloor1.equals(repository.getFloorTemperature("1", "1")));
+    }
+
+
+    @Test
+    public void post_temperature_single_house_two_floors_expect_repository_changed() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+
+        Temperature temperatureFloor1 = new Temperature(25.2, "1", "1");
+        Temperature temperatureFloor2 = new Temperature(22.2, "1", "2");
+
+        Response response1 = target("houses/1/floors/1")
+                .request()
+                .post(Entity.entity(temperatureFloor1, MediaType.APPLICATION_JSON_TYPE));
+
+        Response response2 = target("houses/1/floors/2")
+                .request()
+                .post(Entity.entity(temperatureFloor2, MediaType.APPLICATION_JSON_TYPE));
+
+
+        assertEquals(response1.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals(response2.getStatus(), Response.Status.OK.getStatusCode());
+
+        assertTrue(temperatureFloor1.equals(repository.getFloorTemperature("1", "1")));
+        assertTrue(temperatureFloor2.equals(repository.getFloorTemperature("1", "2")));
+    }
+
+    @Test
+    public void post_temperature_single_house_two_floors_post_twice() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+
+        Temperature temperatureFloor1 = new Temperature(25.2, "house1", "floor1");
+        Temperature temperatureFloor2 = new Temperature(25.4, "house1", "floor2");
+        Temperature temperatureFloor1Second = new Temperature(26.2, "house1", "floor1");
+
+        Response response1 = target("houses/house1/floors/floor1")
+                .request()
+                .post(Entity.entity(temperatureFloor1, MediaType.APPLICATION_JSON_TYPE));
+
+        Response response2 = target("houses/house1/floors/floor2")
+                .request()
+                .post(Entity.entity(temperatureFloor2, MediaType.APPLICATION_JSON_TYPE));
+
+        Response response1Second = target("houses/house1/floors/floor1")
+                .request()
+                .post(Entity.entity(temperatureFloor1Second, MediaType.APPLICATION_JSON_TYPE));
+
+
+
+        assertEquals(response1.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals(response2.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals(response1Second.getStatus(), Response.Status.OK.getStatusCode());
+
+        assertTrue(temperatureFloor1Second.equals(repository.getFloorTemperature("house1", "floor1")));
+        assertTrue(temperatureFloor2.equals(repository.getFloorTemperature("house1", "floor2")));
+    }
+
+
+    @Test
+    public void post_temperature_two_houses_one_floor() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+
+        Temperature temperatureHouse1Floor1 = new Temperature(25.2, "house1", "floor1");
+        Temperature temperatureHouse2Floor1 = new Temperature(24.2, "house2", "floor1");
+
+        Response response1 = target("houses/house1/floors/floor1")
+                .request()
+                .post(Entity.entity(temperatureHouse1Floor1, MediaType.APPLICATION_JSON_TYPE));
+
+        Response response2 = target("houses/house2/floors/floor1")
+                .request()
+                .post(Entity.entity(temperatureHouse2Floor1, MediaType.APPLICATION_JSON_TYPE));
+
+
+        assertEquals(response1.getStatus(), Response.Status.OK.getStatusCode());
+        assertEquals(response2.getStatus(), Response.Status.OK.getStatusCode());
+
+        assertTrue(temperatureHouse1Floor1.equals(repository.getFloorTemperature("house1", "floor1")));
+        assertTrue(temperatureHouse2Floor1.equals(repository.getFloorTemperature("house2", "floor1")));
+    }
+}
 
     @Test
     public void get_house_temperature_bad_id_expect_null() {
