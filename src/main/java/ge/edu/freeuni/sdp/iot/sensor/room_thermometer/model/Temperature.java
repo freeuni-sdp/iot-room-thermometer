@@ -48,4 +48,29 @@ public class Temperature {
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        Temperature other = (Temperature) obj;
+        if (houseId == null) {
+            if (other.houseId != null)
+                return false;
+        } else if (!houseId.equals(other.houseId))
+            return false;
+
+        if (floorId == null) {
+            if (other.floorId != null)
+                return false;
+        } else if (!floorId.equals(other.floorId))
+            return false;
+
+        return temperature == other.temperature;
+    }
 }
