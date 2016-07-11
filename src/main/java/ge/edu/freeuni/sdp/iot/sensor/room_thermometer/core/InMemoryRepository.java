@@ -53,8 +53,6 @@ public class InMemoryRepository implements  Repository{
         if (!houseTemperature.containsKey(houseId))
             return null;
 
-        if (houseRegistry.getHouseData(houseId) == null)
-            return null;
         List<Temperature> tempList = new ArrayList<>(houseTemperature.get(houseId).values());
         if (tempList.isEmpty())
             return null;
