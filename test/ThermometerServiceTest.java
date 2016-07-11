@@ -181,7 +181,6 @@ public class ThermometerServiceTest  extends JerseyTest{
         assertTrue(temperatureHouse1Floor1.equals(repository.getFloorTemperature("house1", "floor1")));
         assertTrue(temperatureHouse2Floor1.equals(repository.getFloorTemperature("house2", "floor1")));
     }
-}
 
     @Test
     public void get_house_temperature_bad_id_expect_null() {
@@ -208,6 +207,15 @@ public class ThermometerServiceTest  extends JerseyTest{
                 .get(Temperature[].class);
         assertTrue(temperature.equals(result[0]));
         assertEquals(1, result.length);
+    }
+
+    @Test
+    public void get_house_temperature_empty_list_expect_null() {
+        FakeRepository.instance().clear();
+        List result= target("houses/1/floors")
+                .request()
+                .get(List.class);
+        assertEquals(null, result);
     }
 
     @Test
