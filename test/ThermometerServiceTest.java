@@ -3,8 +3,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Application;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -64,6 +65,57 @@ public class ThermometerServiceTest  extends JerseyTest{
                 .request()
                 .get(Temperature.class);
         assertTrue(temperature.equals(result));
+    }
+
+    @Test
+    public void get_house_temperature_empty_list_expect_null() {
+        FakeRepository.instance().clear();
+        List result= target("houses/1/floors")
+                .request()
+                .get(List.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void get_house_temperature_bad_id_expect_null() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+        Temperature temperature = new Temperature(13, "1", "1");
+        repository.addData("1", "1", temperature);
+
+        List result= target("houses/2/floors")
+                .request()
+                .get(List.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void get_house_temperature_one_entry() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+        Temperature temperature = new Temperature(13, "1", "1");
+        repository.addData("1", "1", temperature);
+
+        Temperature[] result = target("houses/1/floors")
+                .request()
+                .get(Temperature[].class);
+        assertTrue(temperature.equals(result[0]));
+        assertEquals(1, result.length);
+    }
+
+    @Test
+    public void get_house_temperature_multiple_entry() {
+        FakeRepository repository = FakeRepository.instance();
+        repository.clear();
+        for (int i = 0; i < 5; i++) {
+            Temperature temperature = new Temperature(13, "1", Integer.toString(i));
+            repository.addData("1", Integer.toString(i), temperature);
+        }
+
+        Temperature[] result = target("houses/1/floors")
+                .request()
+                .get(Temperature[].class);
+        assertEquals(5, result.length);
     }
 
 }
